@@ -11,7 +11,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 from botocore.exceptions import ClientError
 
 URL = 'https://developers.mercadolibre.com.ar/devcenter/news/?mlibre=mlibre'
-SPREADSHEET_ID = '1aqmA6WrFfgieBJ_G1Ra5HFXvvfbj0ErDcXI5rohw0Z0'
+SPREADSHEET_ID = 'your_google_spread_sheet_id'
 RANGE_NAME = 'Hoja1!A:C'  # Ajusta según tu hoja
 
 def obtener_html(url):
@@ -125,8 +125,6 @@ def make_read_api_call(funcion, parametros, hoja, slice1, slice2, google_api_dic
                     google_api_dict_list[1], 
                     ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive'])
                 gc = gspread.authorize(creds) 
-                # sh = gc.open_by_key('1AbwRrOEFrcCXR2v8_djqckhLjJOM_2r8S1VwBwhS5Q0')
-
                 if funcion == 'open_by_key':
                     resultado = gc.open_by_key(parametros)
                 elif funcion == 'get_worksheet_by_id':
@@ -174,9 +172,7 @@ def make_read_api_call(funcion, parametros, hoja, slice1, slice2, google_api_dic
 def autenticar_google_sheets():
     # Obtenemos las credenciales de la API de MercadoLibre con un secreto del SecretManager de AWS pasandole la ruta del secreto
     google_api_dict_list = []
-    google_key_locations = [
-        'abettucci/MELIproject/Google_API_JSON_Key_File3',
-        'abettucci/MELIproject/Google_API_JSON_Key_File']
+    google_key_locations = ['your_secret_name_location_in_aws_secret_manager']
     for api_dict in google_key_locations:
         secret = get_secret_value_aws(api_dict)
         secret_data = json.loads(secret)
